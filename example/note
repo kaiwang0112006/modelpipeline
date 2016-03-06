@@ -1,1 +1,4 @@
 python run.py --train=trainhead.csv --test=testhead.csv --model=randomForest
+
+python run.py --train=../data/trainhead.csv --test=../data/testhead.csv --smote --nbs=10
+

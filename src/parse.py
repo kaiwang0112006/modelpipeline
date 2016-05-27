@@ -6,15 +6,15 @@ class parseData(object):
         self.testfile = testfile
         self.nonNumcontent = {}
         
-    def parseRead(self,fstcol='true',lstcol='false'):
-        self.train_x, self.train_y= self.readcsv(self.trainfile,fstcol,'true')
+    def parseRead(self,fstcol=False,lstcol=False):
+        self.train_x, self.train_y= self.readcsv(self.trainfile,fstcol,True)
         self.test_x, self.test_y = self.readcsv(self.testfile,fstcol,lstcol)
         
         
     def readcsv(self,file,fscol,lstcol='true'):
         x = []
         y = []
-        if fscol.lower() == 'true':
+        if fscol:
             cst = 1
         else:
             cst = 0
@@ -27,7 +27,7 @@ class parseData(object):
     #         if fin.line_num == lineNo:
     #             break
 
-            if lstcol.lower() == "true":
+            if lstcol:
                 x.append([self.judegvalue(cell,index) for index,cell in enumerate(eachline[cst:-1])])
                 y.append(float(eachline[-1]))
             else:

@@ -3,6 +3,8 @@ import numpy as np
 from sklearn import grid_search
 from sklearn.ensemble import *
 from sklearn.feature_selection import VarianceThreshold
+from smote import *
+from numpy.distutils.__version__ import minor
 
 class domodel(object):
     def __init__(self,train_x, train_y, test_x, test_y):
@@ -29,6 +31,34 @@ class domodel(object):
         
         self.train_x = train_x_nor
         self.test_x = test_x_nor
+        
+    def smoteRun(self,N,k):
+        yset = list(set(self.train_y))
+        ydict = {yset[0]:[],yset[1]:[]}
+        
+        for index,x in enumerate(self.train_x):
+            ydict[self.train_y[index]].append(x)
+        
+        if len(ydict[yset[0]]) >= len(ydict[yset[1]]):
+            synsamps = SMOTE(np.asarray(ydict[yset[1]]), N, k)
+            self.train_x = ydict[yset[0]] + synsamps.tolist()
+            minorityIndex = [yset[1],len(synsamps)]
+            majorityIndex = [yset[0],len(ydict[yset[0]])]
+        else:
+            synsamps = SMOTE(np.asarray(ydict[yset[0]]), N, k)
+            self.train_x = ydict[yset[1]] + synsamps.tolist()   
+            minorityIndex = [yset[0],len(synsamps)]
+            majorityIndex = [yset[1],len(ydict[yset[1]])]
+
+        y = [] 
+        for i in range(majorityIndex[1]):
+            y.append(majorityIndex[0])
+        for i in range(minorityIndex[1]):
+            y.append(minorityIndex[0])
+            
+        self.train_y = y
+            
+        
         
     def featureSelect(self,method='none'):
         if method == 'cor':

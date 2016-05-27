@@ -25,7 +25,7 @@ def getOptions():
 
     return args
 
-def modelrun(train,test,fts,model,ftscol=False,lstcol=False,smote=[]):
+def modelrun(train,test,fts,modelsel,ftscol=False,lstcol=False,smote=[]):
     print 'reading file'
     parseClass = parseData(train,test)
     parseClass.parseRead(ftscol,lstcol)
@@ -38,12 +38,12 @@ def modelrun(train,test,fts,model,ftscol=False,lstcol=False,smote=[]):
     print 'featureSelect'
     modelClass.featureSelect(fts)
     print 'modeling...'
-    if model == 'gBoosting':
+    if modelsel == 'gBoosting':
         model = modelClass.doGradientBoostingClassifier()
         best_parameters = model.best_estimator_.get_params()
         for param_name in sorted(best_parameters.keys()):
             print("\t%s: %r" % (param_name, best_parameters[param_name]))
-    elif model == 'randomForest':
+    elif modelsel == 'randomForest':
         model = modelClass.doRandomforest()
         best_parameters = model.best_estimator_.get_params()
         for param_name in sorted(best_parameters.keys()):

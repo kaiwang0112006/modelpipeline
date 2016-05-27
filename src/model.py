@@ -89,7 +89,7 @@ class domodel(object):
             'max_features': ['auto', 'sqrt', 'log2',None]
         }
         
-        clf = grid_search.GridSearchCV(GradientBoostingClassifier(), parameters)
+        clf = grid_search.GridSearchCV(RandomForestClassifier(), parameters)
         clf.fit(self.train_x, self.train_y)
         return clf
         

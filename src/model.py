@@ -60,13 +60,15 @@ class domodel(object):
             
         
         
-    def featureSelect(self,method='none'):
+    def featureSelect(self,method=None,k=None,fun=None):
         if method == 'cor':
             train_x_sel, test_x_sel = correlationSelect(train_x_nor, self.train_y, self.test_x_nor)
         elif method == 'extraTrees':
             train_x_sel, test_x_sel = ExtraTreesSelect(train_x_nor, self.train_y, self.test_x_nor)
         elif method == 'randomTree':
             train_x_sel, test_x_sel = randomTreesSelect(train_x_nor, self.train_y, self.test_x_nor)
+        elif method == 'kbest':
+            train_x_sel, test_x_sel = SelectKb(train_x_nor, self.train_y, self.test_x_nor,k=k,fun=fun)
         else:
             return
         self.train_x = train_x_sel

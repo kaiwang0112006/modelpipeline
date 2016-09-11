@@ -1,6 +1,8 @@
 from scipy.stats.stats import pearsonr   
 from sklearn.ensemble import *
 import copy
+from sklearn.feature_selection import *
+from sklearn.feature_selection import chi2
 
 class correlationSel(object):
     def __init__(self):
@@ -80,4 +82,21 @@ def randomTreesSelect(train_x, train_y, test_x):
 #     indices_test = indices_test.tolist()
     train_x_sel = ftsel.transform(train_x)
     test_x_sel = ftsel.transform(test_x)
+    return train_x_sel, test_x_sel
+
+def SelectKb(train_x, train_y, test_x,k,fun=chi2):
+    select = SelectKBest(fun,k=k)
+    select.fit(train_x, train_y)
+    train_x_sel = select.transform(train_x)
+    test_x_sel = select.transform(test_x)
+    
+    # output feature name
+    fout = open("SelectKbest.txt",'w')
+    scores = select.scores_
+    feature_names = [features_list[i] for i in select.get_support(indices=True)]
+    fivescores = [str(scores[i]) for i in select.get_support(indices=True)]
+    fout.write('top_features:\n'+','.join(feature_names)+'\n')
+    fout.write('features score:\n'+','.join(fivescores)+'\n')
+    fout.close()
+
     return train_x_sel, test_x_sel

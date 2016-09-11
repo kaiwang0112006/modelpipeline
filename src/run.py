@@ -50,7 +50,7 @@ def modelrun(train,test,fts,modelsel,ftscol=False,lstcol=False,smote=[]):
             print("\t%s: %r" % (param_name, best_parameters[param_name]))
     
     
-    
+    return model.best_estimator_
 
 ##########################################
 ## Master function
